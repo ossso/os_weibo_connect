@@ -38,7 +38,7 @@ function os_weibo_connect_Event_GetURL($type) {
 /**
  * 社交账户绑定
  */
-function os_weibo_connect_Event_ThirdBind($openid, $token) {
+function os_weibo_connect_Event_ThirdBind($openid, $token, $wbc) {
     global $zbp;
 
     if ($zbp->Config('os_weibo_connect')->active != "1") {
@@ -52,7 +52,7 @@ function os_weibo_connect_Event_ThirdBind($openid, $token) {
     $t->UID = $zbp->user->ID;
     $t->Save();
 
-    os_weibo_connect_Event_ThirdSyncInfoByQQ($openid, $token);
+    os_weibo_connect_Event_ThirdSyncInfoByWeibo($openid, $token, $wbc);
 
     return true;
 }
