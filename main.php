@@ -249,6 +249,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
 <script>
 $('.readme code.copy').on('click', function() {
     var str = $.trim($(this).html())
+    str = str.replace(/&amp;/g, '&')
     clipboard.writeText(str)
     layer.msg("已复制到剪贴板")
 })
