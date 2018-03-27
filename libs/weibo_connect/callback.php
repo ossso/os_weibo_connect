@@ -37,7 +37,7 @@ $status = os_weibo_connect_Event_GetThirdInfo($weibo_uid);
 // 已绑定
 if ($status) {
     // 执行第三方登录
-    os_weibo_connect_Event_GetThirdInfo($weibo_uid, $weibo_token, $wbc);
+    os_weibo_connect_Event_ThirdLogin($weibo_uid, $weibo_token, $wbc);
 } else {
     // 未绑定 再判断是否登录 如果登录就直接绑定
     if ($zbp->user->ID > 0) {
