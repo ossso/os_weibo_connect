@@ -142,7 +142,7 @@ function os_weibo_connect_Event_ThirdLogin($openid, $token, $thirdClass = null) 
     }
 
     $t = new OS_Weibo_Connect;
-    $status = $t->LoadInfoByOpenID($openid, 0);
+    $status = $t->LoadInfoByOpenID($openid, 2);
     if (!$status) {
         echo 'Login Error 1, 登录异常';
         exit;
@@ -314,7 +314,7 @@ function os_weibo_connect_Event_ThirdBindCreate() {
     $zbp->user = $mem;
     $un = $mem->Name;
     $ps = $mem->PassWord_MD5Path;
-    
+
     $sdt = 0;
     $addinfo = array();
     $addinfo['chkadmin'] = (int) $zbp->CheckRights('admin');

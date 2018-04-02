@@ -1,6 +1,6 @@
 <?php
 /**
- * QQ互联控制类
+ * 微博互联控制类
  */
 class OS_Weibo_Connect extends Base {
     public function __construct() {
