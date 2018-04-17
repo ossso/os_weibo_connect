@@ -157,25 +157,9 @@ function os_weibo_connect_Event_ThirdLogin($openid, $token, $thirdClass = null) 
 
     // 将用户信息载入$zbp中
     $zbp->user = $m;
-    $un = $m->Name;
-    $ps = $m->PassWord_MD5Path;
 
-    $sdt = 0;
-    $addinfo = array();
-    $addinfo['chkadmin'] = (int) $zbp->CheckRights('admin');
-    $addinfo['chkarticle'] = (int) $zbp->CheckRights('ArticleEdt');
-    $addinfo['levelname'] = $m->LevelName;
-    $addinfo['userid'] = $m->ID;
-    $addinfo['useralias'] = $m->StaticName;
-    if(HTTP_SCHEME == 'https://'){
-        setcookie("username", $un, $sdt, $zbp->cookiespath, '', true, false);
-        setcookie("password", $ps, $sdt, $zbp->cookiespath, '', true, true);
-        setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath, '', true, false);
-    } else {
-        setcookie("username", $un, $sdt, $zbp->cookiespath);
-        setcookie("password", $ps, $sdt, $zbp->cookiespath);
-        setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath);
-    }
+    // 调用系统登录记录
+    SetLoginCookie($m, 0);
 
     // 挂载上接口 会传入third
     if(isset($GLOBALS['hooks']['Filter_Plugin_VerifyLogin_Succeed'])){
@@ -218,29 +202,13 @@ function os_weibo_connect_Event_ThirdBindLogin() {
     $password = trim(GetVars("password", "POST"));
     if ($zbp->Verify_MD5(GetVars('username', 'POST'), GetVars('password', 'POST'), $m)) {
         $zbp->user = $m;
-        $un = $m->Name;
-        $ps = $m->PassWord_MD5Path;
         if ($zbp->user->Status != 0) {
             $json['code'] = 200100;
             $json['message'] = "已被限制登录";
         } else {
 
-            $sdt = 0;
-            $addinfo = array();
-            $addinfo['chkadmin'] = (int) $zbp->CheckRights('admin');
-            $addinfo['chkarticle'] = (int) $zbp->CheckRights('ArticleEdt');
-            $addinfo['levelname'] = $m->LevelName;
-            $addinfo['userid'] = $m->ID;
-            $addinfo['useralias'] = $m->StaticName;
-            if(HTTP_SCHEME == 'https://'){
-                setcookie("username", $un, $sdt, $zbp->cookiespath, '', true, false);
-                setcookie("password", $ps, $sdt, $zbp->cookiespath, '', true, true);
-                setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath, '', true, false);
-            } else {
-                setcookie("username", $un, $sdt, $zbp->cookiespath);
-                setcookie("password", $ps, $sdt, $zbp->cookiespath);
-                setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath);
-            }
+            // 调用系统登录记录
+            SetLoginCookie($m, 0);
 
             if (!session_id()) {
                 session_start();
@@ -312,25 +280,9 @@ function os_weibo_connect_Event_ThirdBindCreate() {
     CountMember($mem, array(null, null, null, null));
 
     $zbp->user = $mem;
-    $un = $mem->Name;
-    $ps = $mem->PassWord_MD5Path;
-
-    $sdt = 0;
-    $addinfo = array();
-    $addinfo['chkadmin'] = (int) $zbp->CheckRights('admin');
-    $addinfo['chkarticle'] = (int) $zbp->CheckRights('ArticleEdt');
-    $addinfo['levelname'] = $mem->LevelName;
-    $addinfo['userid'] = $mem->ID;
-    $addinfo['useralias'] = $mem->StaticName;
-    if(HTTP_SCHEME == 'https://'){
-        setcookie("username", $un, $sdt, $zbp->cookiespath, '', true, false);
-        setcookie("password", $ps, $sdt, $zbp->cookiespath, '', true, true);
-        setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath, '', true, false);
-    } else {
-        setcookie("username", $un, $sdt, $zbp->cookiespath);
-        setcookie("password", $ps, $sdt, $zbp->cookiespath);
-        setcookie("addinfo" . str_replace('/', '', $zbp->cookiespath), json_encode($addinfo), $sdt, $zbp->cookiespath);
-    }
+    
+    // 调用系统登录记录
+    SetLoginCookie($mem, 0);
 
     // 执行绑定
     include ZBP_PATH . 'zb_users/plugin/os_weibo_connect/libs/weibo_connect/saetv2.ex.class.php';
